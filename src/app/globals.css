@@ -1,7 +1,12 @@
 @import "tailwindcss";
 
+
+.customContainer{
+  margin: auto 50px;  
+}
+
 :root {
-  --background: #ffffff;
+  --background: #fafcff;
   --foreground: #171717;
 }
 
@@ -20,7 +25,5 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
