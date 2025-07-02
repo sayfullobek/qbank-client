@@ -4,10 +4,9 @@ import doctorHero from '../../../../public/images/imgs/doc-hero.webp'
 import Image from 'next/image'
 function HeroSection() {
   return (
-    <section className='!border-b-2 !border-[#edf2f9]'>
+    <section data-aos='fade-up' className='!border-b-2 !border-[#edf2f9]'>
       <Box
         className='customContainer'
-        paddingTop={'100px'}
         display={'grid'}
         gridTemplateColumns={{ xl: 'auto auto', base: 'auto' }}
         justifyContent={{ xl: 'center', base: 'center' }}
