@@ -19,7 +19,7 @@ function FeedbackSection() {
   })
 
   return (
-    <section data-aos='fade-up'>
+    <section data-aos='fade-up' id='feedback'>
       <Box className="customContainer">
         <Box paddingBottom={'40px'}>
           <Heading paddingTop={'60px'} textAlign={'center'}>

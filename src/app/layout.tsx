@@ -27,11 +27,9 @@ function RootLayout({ children }: childProps): JSX.Element {
       </head>
       <body>
         <ChakraProvider theme={theme}>
-          <Navbar />
-          <main className="pt-[25px]">
+          <main>
             {children}
           </main>
-          <Footer/>
         </ChakraProvider>
       </body>
     </html>

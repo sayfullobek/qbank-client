@@ -48,7 +48,7 @@ function TariffsSection() {
   const router = useRouter()
   const bg = useColorModeValue('#fff', '#24272e')
   return (
-    <section data-aos='fade-up' className='mb-10'>
+    <section data-aos='fade-up' className='mb-10' id='tariffs'>
       <Box className="customContainer">
         <Box paddingBottom={'40px'}>
           <Heading paddingTop={'60px'} textAlign={'center'}>
