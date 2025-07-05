@@ -24,7 +24,8 @@ function MarketingLayout({ children }: childProps): JSX.Element {
                 <main className="pt-[25px]">
                     {children}
                 </main>
-                <Footer />
+                <Footer
+                 />
             </body>
         </html>
     )

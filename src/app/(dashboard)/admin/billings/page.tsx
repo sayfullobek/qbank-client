@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@chakra-ui/react";
+
 const billings = [
   { invoice: "INV-001", client: "John Doe", amount: "$120.00", status: "Paid", date: "2024-06-01" },
   { invoice: "INV-002", client: "Jane Smith", amount: "$80.00", status: "Pending", date: "2024-06-02" },
@@ -12,7 +14,13 @@ export default function BillingsPage() {
     <div className="space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Billings</h1>
-        <button className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg font-semibold text-sm">+ New Invoice</button>
+        <Button
+          colorScheme="cyan"
+          size="sm"
+          leftIcon={<span>+</span>}
+        >
+          New Invoice
+        </Button>
       </div>
       <div className="bg-white rounded-lg shadow p-6 overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
@@ -37,8 +45,22 @@ export default function BillingsPage() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-gray-500">{item.date}</td>
                 <td className="px-6 py-4 whitespace-nowrap flex gap-2">
-                  <button className="text-cyan-600 hover:underline text-sm">View</button>
-                  <button className="text-red-600 hover:underline text-sm">Delete</button>
+                  <Button
+                    variant="ghost"
+                    colorScheme="cyan"
+                    size="sm"
+                    fontSize="sm"
+                  >
+                    View
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    colorScheme="red"
+                    size="sm"
+                    fontSize="sm"
+                  >
+                    Delete
+                  </Button>
                 </td>
               </tr>
             ))}

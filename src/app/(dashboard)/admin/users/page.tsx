@@ -1,5 +1,7 @@
 "use client";
 
+import { Input, Button } from "@chakra-ui/react";
+
 const users = [
   { name: "John Doe", email: "john@example.com", role: "Admin", status: "Active" },
   { name: "Jane Smith", email: "jane@example.com", role: "User", status: "Inactive" },
@@ -13,12 +15,24 @@ export default function UsersPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Users</h1>
         <div className="flex gap-2">
-          <input
-            type="text"
+          <Input
             placeholder="Search users..."
-            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            size="sm"
+            width="auto"
+            minWidth="200px"
+            borderColor="gray.300"
+            _focus={{
+              borderColor: "cyan.500",
+              boxShadow: "0 0 0 1px var(--chakra-colors-cyan-500)"
+            }}
           />
-          <button className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg font-semibold text-sm">+ Add User</button>
+          <Button
+            colorScheme="cyan"
+            size="sm"
+            leftIcon={<span>+</span>}
+          >
+            Add User
+          </Button>
         </div>
       </div>
       <div className="bg-white rounded-lg shadow p-6 overflow-x-auto">
@@ -42,8 +56,22 @@ export default function UsersPage() {
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-500'}`}>{user.status}</span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap flex gap-2">
-                  <button className="text-cyan-600 hover:underline text-sm">Edit</button>
-                  <button className="text-red-600 hover:underline text-sm">Delete</button>
+                  <Button
+                    variant="ghost"
+                    colorScheme="cyan"
+                    size="sm"
+                    fontSize="sm"
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    colorScheme="red"
+                    size="sm"
+                    fontSize="sm"
+                  >
+                    Delete
+                  </Button>
                 </td>
               </tr>
             ))}
