@@ -2,6 +2,7 @@ import { Box, Button, Heading } from '@chakra-ui/react'
 import React from 'react'
 import doctorHero from '../../../../public/images/imgs/doc-hero.webp'
 import Image from 'next/image'
+import Link from 'next/link'
 function HeroSection() {
   return (
     <section data-aos='fade-up' className='!border-b-2 !border-[#edf2f9]'>
@@ -35,8 +36,8 @@ function HeroSection() {
             </p>
           </Box>
           <Box>
-            <Button marginRight={'15px'} bg={'blue.500'} _hover={{ bg: 'blue.400' }} color={'white'}>Try it now</Button>
-            <Button variant={'outline'} _hover={{ bg: 'blue.500', color: 'white' }}>Register</Button>
+            <Button marginRight={'15px'} bg={'blue.500'} _hover={{ bg: 'blue.400' }} color={'white'}><Link href={'/login'}>Try it now</Link></Button>
+            <Button variant={'outline'} _hover={{ bg: 'blue.500', color: 'white' }}><Link href={'/register'}>Register</Link></Button>
           </Box>
         </Box>
         <Box className='w-full'>

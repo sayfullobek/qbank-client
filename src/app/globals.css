@@ -30,7 +30,16 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.imageScaler{
+  transform: scaleX(-1) !important;
+}
 
+
+/* word fonts */
 .fira-font{
-  font-family: "Fira Sans", sans-serif;
+  font-family: "Fira Sans";
+}
+
+.signika-font{
+  font-family: 'Signika';
 }

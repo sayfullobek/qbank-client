@@ -1,19 +1,27 @@
 "use client";
 
-import { IconButton, useColorMode, useColorModeValue } from "@chakra-ui/react";
-import { LuMoon, LuSun } from "react-icons/lu";
+import { useColorMode, useColorModeValue, IconButton, IconButtonProps } from "@chakra-ui/react";
+import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 
-export function ColorModeButton() {
+type ColorModeSwitcherProps = Omit<IconButtonProps, "aria-label">;
+
+export function ColorModeSwitcher(props: ColorModeSwitcherProps) {
   const { toggleColorMode } = useColorMode();
-  const Icon = useColorModeValue(LuSun, LuMoon);
+  const text = useColorModeValue("dark", "light");
+  const SwitchIcon = useColorModeValue(MoonIcon, SunIcon);
 
-  return (  
+  return (
     <IconButton
-      aria-label="Toggle color mode"
-      icon={<Icon />}
-      onClick={toggleColorMode}
+      size="md"
+      fontSize="lg"
       variant="ghost"
-      size="sm"
+      color="current"
+      marginLeft="2"
+      borderRadius={'100%'}
+      onClick={toggleColorMode}
+      icon={<SwitchIcon className="w-5 h-5" />}
+      aria-label={`Switch to ${text} mode`}
+      {...props}
     />
   );
 }

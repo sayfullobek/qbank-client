@@ -10,8 +10,22 @@ import Navbar from '../components/custom/header/navbar'
 import theme from '../../theme/theme'
 import childProps from '../../types/childTypes'
 import Footer from '../components/custom/footer/footer';
+import { Fira_Sans, Signika } from 'next/font/google'
+
+const firaSans = Fira_Sans({ 
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-fira-sans'
+})
+
+const signika = Signika({ 
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-signika'
+})
 
 function RootLayout({ children }: childProps): JSX.Element {
+
   useEffect(() => {
     AOS.init({
       duration: 800, // animatsiya davomiyligi
@@ -20,10 +34,9 @@ function RootLayout({ children }: childProps): JSX.Element {
   }, []);
 
   return (
-    <html>
+    <html className={`${firaSans.variable} ${signika.variable}`}>
       <head>
-
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       </head>
       <body>
         <ChakraProvider theme={theme}>

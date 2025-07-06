@@ -1,10 +1,10 @@
 'use client'
 
-import { Box, useColorModeValue } from '@chakra-ui/react'
+import { Box, Button, useColorModeValue } from '@chakra-ui/react'
 import React, { JSX, useEffect, useState } from 'react'
 import { navbarLinks } from '../../../../data/navbarLinks/navLinks'
 import Link from 'next/link'
-import { ColorModeButton } from '../../ui/color-mode'
+import { ColorModeSwitcher } from '../../ui/color-mode'
 import { FiMenu, FiX } from 'react-icons/fi'
 
 function Navbar(): JSX.Element {
@@ -46,7 +46,7 @@ function Navbar(): JSX.Element {
                         <Box paddingX={'16px'} paddingY={'8px'} borderRadius={'25px'}  fontSize={'18px'} _hover={{ bg: 'blue.300' }} fontWeight={'700'} cursor={'pointer'} className='gradient-bg'><span className='text-blue-700'>Med</span><span className='text-white'>Stone</span></Box>
                     </Link>
                     {/* Desktop navlinks */}
-                    <div className="hidden xl:block">
+                    <div className="hidden md:block">
                         <ul className='flex items-center gap-7'>
                             {navbarLinks && navbarLinks.map((item, i) => (
                                 <li key={i} className='font-semibold'>
@@ -56,14 +56,16 @@ function Navbar(): JSX.Element {
                         </ul>
                     </div>
                     {/* Mobile hamburger */}
-                    <div className="xl:hidden flex items-center">
+                    <div className="md:hidden flex items-center">
                         <button onClick={() => setMobileOpen(v => !v)} className="text-2xl p-2 focus:outline-none">
                             {mobileOpen ? <FiX /> : <FiMenu />}
                         </button>
                     </div>
                     <div>
-                        <ColorModeButton />
+                        <ColorModeSwitcher />
+                        <Button marginLeft={'5px'} bg={'blue.300'} _hover={{bg: 'blue.400'}}><Link href={'/login'}>Login</Link></Button>
                     </div>
+                    
                 </div>
                 {/* Mobile dropdown */}
                 {mobileOpen && (
