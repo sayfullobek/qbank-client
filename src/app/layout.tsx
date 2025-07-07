@@ -11,14 +11,16 @@ import theme from '../../theme/theme'
 import childProps from '../../types/childTypes'
 import Footer from '../components/custom/footer/footer';
 import { Fira_Sans, Signika } from 'next/font/google'
+import Providers from './provider';
+import { ToastContainer } from 'react-toastify';
 
-const firaSans = Fira_Sans({ 
+const firaSans = Fira_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-fira-sans'
 })
 
-const signika = Signika({ 
+const signika = Signika({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-signika'
@@ -36,12 +38,16 @@ function RootLayout({ children }: childProps): JSX.Element {
   return (
     <html className={`${firaSans.variable} ${signika.variable}`}>
       <head>
-          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       </head>
       <body>
         <ChakraProvider theme={theme}>
           <main>
-            {children}
+            <Providers>
+              {children}
+              <ToastContainer position="top-right" autoClose={3000} />
+            </Providers>
+            
           </main>
         </ChakraProvider>
       </body>

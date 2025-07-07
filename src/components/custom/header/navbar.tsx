@@ -63,7 +63,7 @@ function Navbar(): JSX.Element {
                     </div>
                     <div>
                         <ColorModeSwitcher />
-                        <Button marginLeft={'5px'} bg={'blue.300'} _hover={{bg: 'blue.400'}}><Link href={'/login'}>Login</Link></Button>
+                        <Button marginLeft={'5px'} borderRadius={'20px'} bg={'blue.300'} _hover={{bg: 'blue.400'}}><Link href={'/login'}>Login</Link></Button>
                     </div>
                     
                 </div>

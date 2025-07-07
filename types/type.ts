@@ -4,3 +4,15 @@ export interface CardDataProps {
     name?: string | undefined | null;
     description?: string | undefined | null;
 }
+
+
+export interface LoginDataType {
+    username: string;
+    password: string;
+}
+
+export interface RegisterDataType {
+    email: string;
+    username: string;
+    password: string;
+}
