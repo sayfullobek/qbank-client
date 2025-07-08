@@ -6,6 +6,7 @@ import PasswordInput from '../../ui/password-input';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLogin } from '../../../../hooks/api/useAuth';
+import BackButton from '../button/backButton';
 
 const LoginForm = () => {
     const [loginData, setLoginData] = useState({
@@ -13,6 +14,7 @@ const LoginForm = () => {
         password: ""
     })
     const loginMutation = useLogin();
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLoginData({ ...loginData, [e.target.id]: e.target.value });
@@ -25,9 +27,12 @@ const LoginForm = () => {
 
     return (
         <div className='px-[150px] py-[50px] *:'>
-            <Box border={'1px solid blue'} _dark={{ bg: '#24272e' }} borderRadius={'15px'} padding={'15px'}>
+            <Box border={'1px solid blue'} overflow={'hidden'} _dark={{ bg: '#24272e' }} borderRadius={'15px'} padding={'15px'} maxHeight={'calc(100vh - 100px)'}>
                 <Box display={'flex'} flexDirection={'row'}>
                     <Box width={'100%'}>
+                    <Box>
+                        <BackButton />
+                    </Box>
                         <Image
                             src="/images/imgs/formImage.png"
                             alt="Login image for medicine medical"
@@ -47,11 +52,11 @@ const LoginForm = () => {
                             <Box display={'flex'} gap={'20px'} flexDirection={'column'}>
                                 <Box display={'flex'} flexDirection={'column'} gap={'5px'}>
                                     <label htmlFor="username">Username *</label>
-                                    <Input type='text' value={loginData.username} onChange={handleChange} id='username' placeholder='Enter username' required/>
+                                    <Input type='text' value={loginData.username} onChange={handleChange} id='username' placeholder='Enter username' required />
                                 </Box>
                                 <Box display={'flex'} flexDirection={'column'} gap={'5px'} >
                                     <label htmlFor="password">Password *</label>
-                                    <PasswordInput id="password" value={loginData.password} onChange={handleChange}/>
+                                    <PasswordInput id="password" value={loginData.password} onChange={handleChange} />
                                 </Box>
                                 <Box>
                                     <Button
@@ -77,6 +82,7 @@ const LoginForm = () => {
                                 <Link href={'/register'}>Register now</Link>
                             </Button>
                         </Box>
+
                     </Box>
                 </Box>
             </Box>

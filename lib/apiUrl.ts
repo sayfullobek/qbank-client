@@ -1,1 +1,1 @@
-export const baseUrl = "http://api.medstone.uz/api"
+export const baseUrl = "https://api.medstone.uz/api"

@@ -43,7 +43,7 @@ function Navbar(): JSX.Element {
             >
                 <div className='flex items-center justify-between'>
                     <Link href={'/'}>
-                        <Box paddingX={'16px'} paddingY={'8px'} borderRadius={'25px'}  fontSize={'18px'} _hover={{ bg: 'blue.300' }} fontWeight={'700'} cursor={'pointer'} className='gradient-bg'><span className='text-blue-700'>Med</span><span className='text-white'>Stone</span></Box>
+                        <Box paddingX={'16px'} paddingY={'8px'} borderRadius={'25px'} fontSize={'18px'} _hover={{ bg: 'blue.300' }} fontWeight={'700'} cursor={'pointer'} className='gradient-bg'><span className='text-blue-700'>Med</span><span className='text-white'>Stone</span></Box>
                     </Link>
                     {/* Desktop navlinks */}
                     <div className="hidden md:block">
@@ -63,9 +63,9 @@ function Navbar(): JSX.Element {
                     </div>
                     <div>
                         <ColorModeSwitcher />
-                        <Button marginLeft={'5px'} borderRadius={'20px'} bg={'blue.300'} _hover={{bg: 'blue.400'}}><Link href={'/login'}>Login</Link></Button>
+                        <Button className="!hidden md:!inline" marginLeft={'5px'} borderRadius={'20px'} bg={'blue.300'} _hover={{ bg: 'blue.400' }}><Link href={'/login'}>Login</Link></Button>
                     </div>
-                    
+
                 </div>
                 {/* Mobile dropdown */}
                 {mobileOpen && (
@@ -76,6 +76,9 @@ function Navbar(): JSX.Element {
                                     <Link href={item.path} onClick={() => setMobileOpen(false)}>{item.name}</Link>
                                 </li>
                             ))}
+                            <li>
+                                <Button  marginLeft={'5px'} borderRadius={'20px'} bg={'blue.300'} _hover={{ bg: 'blue.400' }}><Link href={'/login'}>Login</Link></Button>
+                            </li>
                         </ul>
                     </div>
                 )}

@@ -4,6 +4,11 @@ export const setToken = (token: string) => {
     const oneWeekFromNow = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString();
     document.cookie = `token=${token}; path=/; expires=${oneWeekFromNow};`;
 };
+export const setRefreshToken = (token: string) => {
+    if (!token) return;
+    const oneWeekFromNow = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = `refreshToken=${token}; path=/; expires=${oneWeekFromNow};`;
+};
 
 // cookega role qoshamz
 export const setRole = (role: string) => {
