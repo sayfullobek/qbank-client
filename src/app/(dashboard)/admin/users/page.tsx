@@ -1,4 +1,7 @@
 "use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { checkToken } from "../../../../../lib/checkToken";
 
 import { Input, Button } from "@chakra-ui/react";
 
@@ -10,6 +13,9 @@ const users = [
 ];
 
 export default function UsersPage() {
+  const router = useRouter();
+  useEffect(() => { checkToken(router); }, [router]);
+
   return (
     <div className="flex flex-col space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">

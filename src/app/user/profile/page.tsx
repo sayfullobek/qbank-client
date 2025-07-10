@@ -7,6 +7,8 @@ import { useRef } from 'react';
 import { EditIcon } from '@chakra-ui/icons';
 import { CameraIcon } from '@heroicons/react/24/outline';
 import { FiUpload } from 'react-icons/fi';
+import { useEffect } from "react";
+import { checkToken } from "../../../../lib/checkToken";
 
 const initialUser = {
   name: 'Ulug‘bek Raxmatillayev',
@@ -29,6 +31,8 @@ export default function UserProfilePage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
+
+  useEffect(() => { checkToken(router); }, [router]);
 
   const handleEdit = (field: 'name' | 'username') => {
     setEditField(field);

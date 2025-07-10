@@ -51,3 +51,13 @@ export const clearAll = () => {
     document.cookie = "token=; Max-Age=0; path=/;";
     document.cookie = "role=; Max-Age=0; path=/;";
 };
+
+// JWT tokenni decode qilish uchun funksiya
+export function parseJwt(token: string): any {
+    try {
+        console.log(JSON.parse(atob(token.split('.')[1])))
+        return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+        return null;
+    }
+}

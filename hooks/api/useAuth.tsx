@@ -2,7 +2,7 @@
 import { useMutation } from "@tanstack/react-query"
 import { loginFunc, registerFunc } from "../../lib/api/auth"
 import { useAuthStore } from "../../stores/authStore"
-import { getToken, setRefreshToken, setRole, setToken } from "../../utils/auth"
+import { getToken, setRefreshToken, setRole, setToken, parseJwt } from "../../utils/auth"
 import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
 
@@ -18,12 +18,17 @@ export const useLogin = () => {
             const isAdmin = variables.username === 'superadmin';
             setToken(res.data.access)
             setRefreshToken(res.data.refresh)
-            // login funksiyasi chaqirilsa, userni saqlash mumkin, hozircha tokenlar saqlanmoqda
+            // Workaround: username orqali role ni aniqlash va cookie-ga yozish
             if (isAdmin) {
+                setRole('admin');
                 router.push('/admin')
             } else {
+                setRole('user');
                 router.push('/user')
             }
+            // JWT tokenni ochib, payloadni va role ni consolega chiqaramiz
+            const payload = parseJwt(res.data.access);
+            console.log('JWT payload:', payload);
             toast.success('Siz hisobingizga kirdingiz!')
         },
         onError: (err:any) => {

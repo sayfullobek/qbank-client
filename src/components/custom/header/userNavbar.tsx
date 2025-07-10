@@ -5,9 +5,14 @@ import { Box, Flex, Text, Menu, MenuButton, MenuList, MenuItem, Avatar, Button, 
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { ColorModeSwitcher } from "../../ui/color-mode";
 import { useRouter } from "next/navigation";
+import { clearAll } from "../../../../utils/auth";
 
 export const UserNavbar = () => {
   const router = useRouter();
+  const handleSignOut = () => {
+    clearAll();
+    router.push("/login");
+  };
   // Demo user data
   const user = {
     name: "Ulug‘bek Raxmatillayev",
@@ -47,7 +52,7 @@ export const UserNavbar = () => {
           </MenuButton>
           <MenuList>
             <MenuItem onClick={() => router.push("/user/profile")}>Profile</MenuItem>
-            <MenuItem color="red.500" onClick={() => {/* TODO: sign out logic */}}>Sign out</MenuItem>
+            <MenuItem color="red.500" onClick={() => {handleSignOut()}}>Sign out</MenuItem>
           </MenuList>
         </Menu>
       </Flex>

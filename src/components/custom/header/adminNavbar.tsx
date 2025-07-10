@@ -2,18 +2,29 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Bars3Icon, MagnifyingGlassIcon, BellIcon, UserCircleIcon, Squares2X2Icon, ShoppingCartIcon } from '@heroicons/react/24/outline';
-import { Input, InputGroup, InputLeftElement, Icon, useColorModeValue } from "@chakra-ui/react";
+import { Bars3Icon, MagnifyingGlassIcon, BellIcon, Squares2X2Icon, ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { Input, InputGroup, InputLeftElement, Icon, useColorModeValue, Menu, MenuButton, MenuList, MenuItem, Avatar, Box } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "../../ui/color-mode";
+import { useRouter } from "next/navigation";
+import { clearAll } from "../../../../utils/auth";
 
 export default function AdminNavbar() {
     const bgColor = useColorModeValue("white", "gray.800");
     const borderColor = useColorModeValue("gray.200", "gray.700");
     const textColor = useColorModeValue("gray.600", "gray.300");
     const hoverBgColor = useColorModeValue("gray.100", "gray.700");
+    const buttonBg = useColorModeValue("white", "gray.800");
+    const buttonHoverBg = useColorModeValue("gray.100", "gray.700");
+    const menuBg = useColorModeValue("white", "gray.800");
+    const router = useRouter();
+
+    const handleSignOut = () => {
+      clearAll();
+      router.push("/login");
+    };
 
     return (
-        <nav className={`border-b border-${borderColor} fixed top-0 left-0 w-full z-50 h-16`} style={{ backgroundColor: bgColor }}>
+        <nav className="fixed top-0 left-0 w-full z-50 h-16" style={{ backgroundColor: bgColor, borderBottom: `1px solid ${borderColor}` }}>
             <div className="px-4 lg:px-6 h-full">
                 <div className="flex items-center justify-between h-full">
                     {/* Left */}
@@ -21,12 +32,14 @@ export default function AdminNavbar() {
                         <button
                             aria-expanded="true"
                             aria-controls="sidebar"
-                            className={`lg:hidden cursor-pointer p-2 focus:ring-2 focus:ring-gray-100 rounded border border-gray-300`}
-                            style={{ color: textColor }}
+                            className="lg:hidden cursor-pointer p-2 rounded border"
+                            style={{ color: textColor, backgroundColor: buttonBg, borderColor: borderColor }}
+                            onMouseEnter={e => e.currentTarget.style.backgroundColor = buttonHoverBg}
+                            onMouseLeave={e => e.currentTarget.style.backgroundColor = buttonBg}
                         >
                             <Bars3Icon className="w-7 h-7" />
                         </button>
-                        <Link href="/" className="text-xl font-bold flex items-center gap-2">
+                        <Link href="/" className="text-xl font-bold flex items-center gap-2" style={{ color: textColor }}>
                             <Image src="/images/logo.svg" alt="Windster Logo" width={28} height={28} className="h-7 w-7" />
                             <span className="font-black tracking-tight">Windster Pro</span>
                         </Link>
@@ -60,18 +73,34 @@ export default function AdminNavbar() {
                     {/* Right */}
                     <div className="flex items-center gap-3">
                         <ColorModeSwitcher />
-                        <button className={`p-2 rounded-full`} style={{ color: textColor }}>
+                        <button className="p-2 rounded-full" style={{ color: textColor, backgroundColor: buttonBg }}
+                          onMouseEnter={e => e.currentTarget.style.backgroundColor = buttonHoverBg}
+                          onMouseLeave={e => e.currentTarget.style.backgroundColor = buttonBg}
+                        >
                             <BellIcon className="w-6 h-6" />
                         </button>
-                        <button className={`p-2 rounded-full`} style={{ color: textColor }}>
+                        <button className="p-2 rounded-full" style={{ color: textColor, backgroundColor: buttonBg }}
+                          onMouseEnter={e => e.currentTarget.style.backgroundColor = buttonHoverBg}
+                          onMouseLeave={e => e.currentTarget.style.backgroundColor = buttonBg}
+                        >
                             <Squares2X2Icon className="w-6 h-6" />
                         </button>
-                        <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white shadow">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" className="w-full h-full object-cover" />
-                        </div>
+                        <Menu>
+                          <MenuButton as={Box} cursor="pointer">
+                            <Avatar size="sm" name="Admin" src="https://randomuser.me/api/portraits/men/32.jpg" />
+                          </MenuButton>
+                          <MenuList bg={menuBg}>
+                            <MenuItem onClick={() => router.push("/admin/profile")}>Account settings</MenuItem>
+                            <MenuItem onClick={() => router.push("/admin/profile")}>Admin profile</MenuItem>
+                            <MenuItem onClick={handleSignOut} color="red.500">Sign out</MenuItem>
+                          </MenuList>
+                        </Menu>
                         <Link
                             href="/pricing"
-                            className="inline-flex items-center gap-2 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-semibold rounded-lg text-sm px-4 py-2 shadow"
+                            className="inline-flex items-center gap-2 font-semibold rounded-lg text-sm px-4 py-2 shadow"
+                            style={{ color: "white", backgroundColor: "#0891b2" }}
+                            onMouseEnter={e => e.currentTarget.style.backgroundColor = "#0e7490"}
+                            onMouseLeave={e => e.currentTarget.style.backgroundColor = "#0891b2"}
                         >
                             <ShoppingCartIcon className="h-5 w-5" />
                             Buy now

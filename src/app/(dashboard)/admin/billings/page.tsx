@@ -1,6 +1,9 @@
 "use client";
 
 import { Button } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { checkToken } from "../../../../../lib/checkToken";
 
 const billings = [
   { invoice: "INV-001", client: "John Doe", amount: "$120.00", status: "Paid", date: "2024-06-01" },
@@ -10,6 +13,9 @@ const billings = [
 ];
 
 export default function BillingsPage() {
+  const router = useRouter();
+  useEffect(() => { checkToken(router); }, [router]);
+
   return (
     <div className="space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">

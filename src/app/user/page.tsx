@@ -1,5 +1,11 @@
+"use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { checkToken } from "../../../lib/checkToken";
 import React from 'react'
 import { Box, Heading, Text, SimpleGrid, Stack, Divider, Badge } from '@chakra-ui/react'
+import { clearAll } from "../../../utils/auth";
+import Link from "next/link";
 
 const stats = [
   { label: 'Total tests', value: 42 },
@@ -16,8 +22,18 @@ const solvedTests = [
 ]
 
 export default function UserPage() {
+  const router = useRouter();
+  useEffect(() => {
+    checkToken(router);
+  }, [router]);
+
   return (
     <Box maxW="900px" mx="auto" py={8} px={4}>
+      <Box display="flex" justifyContent="flex-end" mb={4}>
+        <Link href="/user/tests">
+          <button style={{background:'#3182ce',color:'#fff',padding:'8px 16px',borderRadius:'6px',fontWeight:'bold'}}>Tests</button>
+        </Link>
+      </Box>
       <Heading mb={6} fontSize="2xl">Statistics</Heading>
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} mb={10}>
         {stats.map((stat) => (

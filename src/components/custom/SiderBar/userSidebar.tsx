@@ -32,6 +32,16 @@ export const UserSidebar = () => {
                         </Link>
                     </li>
                 </ul>
+                <ul className="space-y-2 font-medium mt-4">
+                    <li>
+                        <Link href="/user/tests" className="flex items-center p-2 rounded-lg group" style={{ color: sidebarText }}>
+                            <svg className="w-5 h-5 transition duration-75" style={{ color: iconColor }} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M4 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4Zm0 2h12v10H4V5Zm2 2v2h2V7H6Zm0 4v2h2v-2H6Zm4-4v2h2V7h-2Zm0 4v2h2v-2h-2Z" />
+                            </svg>
+                            <Text as="span" color={sidebarText} className="ms-3">Tests</Text>
+                        </Link>
+                    </li>
+                </ul>
             </div>
         </div>
     );

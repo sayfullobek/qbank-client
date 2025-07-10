@@ -1,11 +1,17 @@
 "use client";
 
 import { useColorModeValue } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { checkToken } from "../../../../lib/checkToken";
 
 export default function AdminDashboardPage() {
   const cardBg = useColorModeValue("white", "gray.800");
   const textColor = useColorModeValue("gray.900", "white");
   const borderColor = useColorModeValue("gray.200", "gray.700");
+
+  const router = useRouter();
+  useEffect(() => { checkToken(router); }, [router]);
 
   return (
     <div className="flex flex-col space-y-8">

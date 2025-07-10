@@ -1,4 +1,6 @@
-"use client"
+"use client";
+import { useEffect } from "react";
+import { checkToken } from "../../../../lib/checkToken";
 
 import { Box, Button, FormControl, FormLabel, Heading, Input, Text, useToast, useColorModeValue } from '@chakra-ui/react';
 import { useState } from 'react';
@@ -15,6 +17,8 @@ export default function ResetPasswordPage() {
 
   const bg = useColorModeValue('gray.50', 'gray.900');
   const boxBg = useColorModeValue('white', 'gray.800');
+
+  useEffect(() => { checkToken(router); }, [router]);
 
   // 1. Kod yuborilganini ko'rsatish va kod kiritish
   const handleCodeSubmit = async (e: React.FormEvent) => {
