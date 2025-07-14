@@ -33,10 +33,11 @@ export default function RegisterForm() {
         }
     };
     return (
-        <div className='px-[150px] py-[50px] *:'>
-            <Box border={'1px solid blue'} overflow={'hidden'} _dark={{ bg: '#24272e' }} borderRadius={'15px'} padding={'15px'} maxHeight={'calc(100vh - 100px)'}>
-                <Box display={'flex'} flexDirection={'row'}>
-                    <Box width={'100%'}>
+        <div className='flex justify-center items-center min-h-screen px-4 sm:px-8 md:px-16 py-8'>
+            <Box border={'1px solid blue'} overflow={'hidden'} _dark={{ bg: '#24272e' }} borderRadius={'15px'} padding={{ base: '10px', md: '15px' }} maxHeight={'calc(100vh - 100px)'} width={{ base: '100%', sm: '90%', md: '70%', lg: '60%', xl: '50%' }}>
+                <Box display={'flex'} flexDirection={{ base: 'column', md: 'row' }}>
+                    {/* Image and BackButton only on md and up */}
+                    <Box width={'100%'} display={{ base: 'none', md: 'block' }}>
                         <Box>
                             <BackButton />
                         </Box>
@@ -45,12 +46,12 @@ export default function RegisterForm() {
                             alt="Login image for medicine medical"
                             width={500}
                             height={300}
-                            className='object-cover imageScaler h-[50%] w-full'
+                            className='object-cover imageScaler h-[180px] w-full md:h-[50%]'
                         />
                     </Box>
                     <Box width={'100%'}>
                         <Box marginTop={'20px'} className='signika-font'>
-                            <Heading paddingBottom={'15px'} fontSize={'42px'}>Register</Heading>
+                            <Heading paddingBottom={'15px'} fontSize={{ base: '2xl', md: '3xl', lg: '42px' }}>Register</Heading>
                         </Box>
                         <Text paddingBottom={'20px'} _dark={{ color: 'white' }} _light={{ color: 'gray.500' }} fontWeight={'semibold'}>Register here to use site.</Text>
                         <form onSubmit={handleSubmit}>
@@ -83,7 +84,7 @@ export default function RegisterForm() {
                                 </Box>
                             </Box>
                         </form>
-                        <Box display={'flex'} justifyContent={'space-between'} paddingTop={'15px'}>
+                        <Box display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} justifyContent={'space-between'} paddingTop={'15px'} gap={2}>
                             <Text>
                                 Do you have already an account ?
                             </Text>

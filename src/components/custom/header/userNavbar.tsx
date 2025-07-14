@@ -7,7 +7,7 @@ import { ColorModeSwitcher } from "../../ui/color-mode";
 import { useRouter } from "next/navigation";
 import { clearAll } from "../../../../utils/auth";
 
-export const UserNavbar = () => {
+export const UserNavbar = ({ onMenuClick }: { onMenuClick?: () => void }) => {
   const router = useRouter();
   const handleSignOut = () => {
     clearAll();
@@ -36,6 +36,18 @@ export const UserNavbar = () => {
       zIndex={10}
       minH="60px"
     >
+      {/* Mobile menu button */}
+      <Button
+        display={{ base: "inline-flex", lg: "none" }}
+        variant="ghost"
+        onClick={onMenuClick}
+        mr={2}
+        aria-label="Open menu"
+        px={2}
+        py={1}
+      >
+        <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+      </Button>
       {/* Logo or Title */}
       <Box fontWeight="bold" fontSize="xl" cursor="pointer" onClick={() => router.push("/")}>
         <Text as="span" color={logoTextColor}>Med</Text>

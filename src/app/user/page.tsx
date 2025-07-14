@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { checkToken } from "../../../lib/checkToken";
+// import { checkToken } from "../../../lib/checkToken";
 import React from 'react'
 import { Box, Heading, Text, SimpleGrid, Stack, Divider, Badge } from '@chakra-ui/react'
 import { clearAll } from "../../../utils/auth";
@@ -23,9 +23,9 @@ const solvedTests = [
 
 export default function UserPage() {
   const router = useRouter();
-  useEffect(() => {
-    checkToken(router);
-  }, [router]);
+  // useEffect(() => {
+  //   checkToken(router);
+  // }, [router]);
 
   return (
     <Box maxW="900px" mx="auto" py={8} px={4}>

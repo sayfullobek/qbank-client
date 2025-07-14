@@ -6,6 +6,14 @@ export function checkToken(router: any) {
     const token = getToken();
     const role = getRole();
 
+    // Agar hozirgi sahifa /login yoki /register bo'lsa, token tekshirmaslik kerak
+    if (
+        window.location.pathname === "/login" ||
+        window.location.pathname === "/register"
+    ) {
+        return;
+    }
+
     // Token bo'lmasa, login page ga yo'naltir
     if (!token) {
         router.push("/login");

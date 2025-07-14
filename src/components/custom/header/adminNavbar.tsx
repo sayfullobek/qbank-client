@@ -7,8 +7,9 @@ import { Input, InputGroup, InputLeftElement, Icon, useColorModeValue, Menu, Men
 import { ColorModeSwitcher } from "../../ui/color-mode";
 import { useRouter } from "next/navigation";
 import { clearAll } from "../../../../utils/auth";
+import { FaBoxes } from "react-icons/fa";
 
-export default function AdminNavbar() {
+export default function AdminNavbar({ onMenuClick }: { onMenuClick?: () => void }) {
     const bgColor = useColorModeValue("white", "gray.800");
     const borderColor = useColorModeValue("gray.200", "gray.700");
     const textColor = useColorModeValue("gray.600", "gray.300");
@@ -24,7 +25,7 @@ export default function AdminNavbar() {
     };
 
     return (
-        <nav className="fixed top-0 left-0 w-full z-50 h-16" style={{ backgroundColor: bgColor, borderBottom: `1px solid ${borderColor}` }}>
+        <Box className="fixed top-0 left-0 w-full z-50 h-16" _dark={{bg:'gray.800'}} _light={{bg:' white'}} borderBottom={'1px solid gray'}>
             <div className="px-4 lg:px-6 h-full">
                 <div className="flex items-center justify-between h-full">
                     {/* Left */}
@@ -36,6 +37,7 @@ export default function AdminNavbar() {
                             style={{ color: textColor, backgroundColor: buttonBg, borderColor: borderColor }}
                             onMouseEnter={e => e.currentTarget.style.backgroundColor = buttonHoverBg}
                             onMouseLeave={e => e.currentTarget.style.backgroundColor = buttonBg}
+                            onClick={onMenuClick}
                         >
                             <Bars3Icon className="w-7 h-7" />
                         </button>
@@ -108,6 +110,6 @@ export default function AdminNavbar() {
                     </div>
                 </div>
             </div>
-        </nav>
+        </Box>
     );
 }
