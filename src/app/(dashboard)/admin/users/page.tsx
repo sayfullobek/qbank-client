@@ -1,9 +1,25 @@
 "use client";
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { checkToken } from "../../../../../lib/checkToken";
 
-import { Input, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  Input,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  useColorModeValue,
+  Stack,
+  Badge,
+  HStack,
+} from "@chakra-ui/react";
 
 const users = [
   { name: "John Doe", email: "john@example.com", role: "Admin", status: "Active" },
@@ -14,76 +30,89 @@ const users = [
 
 export default function UsersPage() {
   const router = useRouter();
-  useEffect(() => { checkToken(router); }, [router]);
+  useEffect(() => {
+    checkToken(router);
+  }, [router]);
+
+  const bg = useColorModeValue("white", "gray.800");
+  const text = useColorModeValue("gray.900", "white");
+  const border = useColorModeValue("gray.200", "gray.700");
+  const inputBg = useColorModeValue("white", "gray.700");
+  const inputBorder = useColorModeValue("gray.300", "gray.600");
+  const tableHeadBg = useColorModeValue("gray.50", "gray.700");
+  const tableRowBg = useColorModeValue("white", "gray.800");
 
   return (
-    <div className="flex flex-col space-y-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Users</h1>
-        <div className="flex gap-2">
+    <Box p={4}>
+      <Stack
+        direction={{ base: "column", sm: "row" }}
+        justify="space-between"
+        align="center"
+        mb={6}
+      >
+        <Heading size="lg" color={text}>Users</Heading>
+        <HStack spacing={3}>
           <Input
             placeholder="Search users..."
             size="sm"
-            width="auto"
-            minWidth="200px"
-            borderColor="gray.300"
+            bg={inputBg}
+            borderColor={inputBorder}
             _focus={{
               borderColor: "cyan.500",
-              boxShadow: "0 0 0 1px var(--chakra-colors-cyan-500)"
+              boxShadow: "0 0 0 1px var(--chakra-colors-cyan-500)",
             }}
+            maxW="250px"
           />
-          <Button
-            colorScheme="cyan"
-            size="sm"
-            leftIcon={<span>+</span>}
-          >
-            Add User
-          </Button>
-        </div>
-      </div>
-      <div className="bg-white rounded-lg shadow p-6 overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          {/* <Button colorScheme="cyan" size="sm">+ Add User</Button> */}
+        </HStack>
+      </Stack>
+
+      <Box
+        bg={bg}
+        rounded="lg"
+        shadow="md"
+        border="1px solid"
+        borderColor={border}
+        overflowX="auto"
+      >
+        <Table variant="simple">
+          <Thead bg={tableHeadBg}>
+            <Tr>
+              <Th>Name</Th>
+              <Th>Email</Th>
+              <Th>Role</Th>
+              <Th>Status</Th>
+              <Th>Actions</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
             {users.map((user, idx) => (
-              <tr key={idx}>
-                <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{user.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-500">{user.email}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-500">{user.role}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-500'}`}>{user.status}</span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap flex gap-2">
-                  <Button
-                    variant="ghost"
-                    colorScheme="cyan"
-                    size="sm"
-                    fontSize="sm"
+              <Tr key={idx} bg={tableRowBg}>
+                <Td fontWeight="medium" color={text}>{user.name}</Td>
+                <Td color="gray.500">{user.email}</Td>
+                <Td color="gray.500">{user.role}</Td>
+                <Td>
+                  <Badge
+                    colorScheme={user.status === "Active" ? "green" : "gray"}
+                    variant="subtle"
+                    px={2}
+                    py={0.5}
+                    borderRadius="full"
                   >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    colorScheme="red"
-                    size="sm"
-                    fontSize="sm"
-                  >
-                    Delete
-                  </Button>
-                </td>
-              </tr>
+                    {user.status}
+                  </Badge>
+                </Td>
+                <Td>
+                  <HStack spacing={2}>
+                    <Button variant="ghost" size="sm" colorScheme="cyan">Edit</Button>
+                    <Button variant="ghost" size="sm" colorScheme="red">Delete</Button>
+                  </HStack>
+                </Td>
+              </Tr>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+          </Tbody>
+        </Table>
+      </Box>
+    </Box>
   );
 }

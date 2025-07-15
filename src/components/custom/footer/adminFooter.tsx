@@ -1,61 +1,77 @@
 "use client";
 
 import Link from "next/link";
+import { Box, HStack, Text, useColorModeValue, VStack } from "@chakra-ui/react";
 
 export default function AdminFooter() {
+  const bg = useColorModeValue("white", "gray.800");
+  const text = useColorModeValue("gray.500", "gray.400");
+  const linkHover = useColorModeValue("gray.800", "white");
+
   return (
     <>
-      <footer className="bg-white md:flex md:items-center md:justify-between shadow rounded-lg p-4 md:p-6 xl:p-8 my-6 mx-4">
-        <ul className="flex items-center flex-wrap mb-6 md:mb-0">
-          <li>
-            <Link href="#" className="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">
-              Terms and conditions
-            </Link>
-          </li>
-          <li>
-            <Link href="#" className="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">
-              Privacy Policy
-            </Link>
-          </li>
-          <li>
-            <Link href="#" className="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">
-              Licensing
-            </Link>
-          </li>
-          <li>
-            <Link href="#" className="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">
-              Cookie Policy
-            </Link>
-          </li>
-          <li>
-            <Link href="#" className="text-sm font-normal text-gray-500 hover:underline">
-              Contact
-            </Link>
-          </li>
-        </ul>
-        <div className="flex sm:justify-center space-x-6">
-          {[
-            "facebook",
-            "instagram",
-            "twitter",
-            "github",
-            "dribbble"
-          ].map((platform, i) => (
-            <Link key={i} href="#" className="text-gray-500 hover:text-gray-900">
-              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <use href={`#icon-${platform}`} />
-              </svg>
-            </Link>
-          ))}
-        </div>
-      </footer>
-
-      <p className="text-center text-sm text-gray-500 my-10">
-        &copy; 2019–{new Date().getFullYear()}{" "}
-        <a href="https://themesberg.com" target="_blank" className="hover:underline" rel="noopener noreferrer">
-          Themesberg
-        </a>. All rights reserved.
-      </p>
+      <Box
+        bg={bg}
+        mt={10}
+        ml={'256px'}
+        px={{ base: 4, md: 8 }}
+        py={{ base: 6, md: 8 }}
+        borderTopWidth={1}
+        borderColor={useColorModeValue("gray.200", "gray.700")}
+      >
+        <HStack
+          justify="space-between"
+          flexWrap="wrap"
+          spacing={4}
+          align={{ base: "start", md: "center" }}
+          mb={{ base: 6, md: 0 }}
+        >
+          <HStack flexWrap="wrap" spacing={4} mb={{ base: 4, md: 0 }}>
+            {[
+              "Terms and conditions",
+              "Privacy Policy",
+              "Licensing",
+              "Cookie Policy",
+              "Contact"
+            ].map((item, idx) => (
+              <Link
+                key={idx}
+                href="#"
+                style={{ color: text }}
+                className="text-sm font-normal hover:underline"
+              >
+                {item}
+              </Link>
+            ))}
+          </HStack>
+          <HStack spacing={4}>
+            {["facebook", "instagram", "twitter", "github", "dribbble"].map((platform, idx) => (
+              <Link key={idx} href="#" aria-label={platform}>
+                <svg
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  style={{ color: text }}
+                >
+                  <use href={`#icon-${platform}`} />
+                </svg>
+              </Link>
+            ))}
+          </HStack>
+        </HStack>
+        <Text textAlign="center" fontSize="sm" color={text} mt={8}>
+          &copy; 2019–{new Date().getFullYear()} {" "}
+          <Link
+            href="https://themesberg.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline"
+            style={{ color: linkHover }}
+          >
+            Themesberg
+          </Link>. All rights reserved.
+        </Text>
+      </Box>
     </>
   );
 }

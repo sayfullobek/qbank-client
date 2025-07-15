@@ -1,74 +1,115 @@
 "use client";
 
-import { Button } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkToken } from "../../../../../lib/checkToken";
+import {
+  Box,
+  Button,
+  Heading,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  useColorModeValue,
+  Badge,
+  HStack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Text,
+  Stack,
+} from "@chakra-ui/react";
 
-const tests = [
-  { name: "Reading Test", category: "Reading", status: "Active" },
-  { name: "Listening Test", category: "Listening", status: "Inactive" },
-  { name: "Writing Test", category: "Writing", status: "Active" },
-  { name: "Speaking Test", category: "Speaking", status: "Active" },
+const medicalTests = [
+  { name: "Blood Test", category: "Pathology", status: "Active" },
+  { name: "X-Ray", category: "Radiology", status: "Inactive" },
+  { name: "MRI Scan", category: "Radiology", status: "Active" },
+  { name: "Urine Test", category: "Pathology", status: "Active" },
 ];
 
 export default function TestsPage() {
   const router = useRouter();
-  useEffect(() => { checkToken(router); }, [router]);
+  useEffect(() => {
+    checkToken(router);
+  }, [router]);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedTest, setSelectedTest] = useState(null);
+
+  const bg = useColorModeValue("white", "gray.800");
+  const text = useColorModeValue("gray.900", "white");
+  const border = useColorModeValue("gray.200", "gray.700");
+  const tableHeadBg = useColorModeValue("gray.50", "gray.700");
+
+  const handleDelete = (test) => {
+    setSelectedTest(test);
+    onOpen();
+  };
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Tests</h1>
-        <Button
-          colorScheme="cyan"
-          size="sm"
-          leftIcon={<span>+</span>}
-        >
-          New Test
-        </Button>
-      </div>
-      <div className="bg-white rounded-lg shadow p-6 overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Test Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {tests.map((test, idx) => (
-              <tr key={idx}>
-                <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{test.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-500">{test.category}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${test.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-500'}`}>{test.status}</span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap flex gap-2">
-                  <Button
-                    variant="ghost"
-                    colorScheme="cyan"
-                    size="sm"
-                    fontSize="sm"
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    colorScheme="red"
-                    size="sm"
-                    fontSize="sm"
-                  >
-                    Delete
-                  </Button>
-                </td>
-              </tr>
+    <Box p={4}>
+      <Stack
+        direction={{ base: "column", sm: "row" }}
+        justify="space-between"
+        align="center"
+        mb={6}
+      >
+        <Heading size="lg" color={text}>Medical Tests</Heading>
+        <Button colorScheme="cyan" size="sm" onClick={() => router.push("/admin/tests/addnew")}>+ New Test</Button>
+      </Stack>
+
+      <Box bg={bg} borderRadius="lg" shadow="md" border="1px solid" borderColor={border} overflowX="auto">
+        <Table variant="simple">
+          <Thead bg={tableHeadBg}>
+            <Tr>
+              <Th>Test Name</Th>
+              <Th>Category</Th>
+              <Th>Status</Th>
+              <Th>Actions</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {medicalTests.map((test, idx) => (
+              <Tr key={idx}>
+                <Td fontWeight="medium" color={text}>{test.name}</Td>
+                <Td color="gray.500">{test.category}</Td>
+                <Td>
+                  <Badge colorScheme={test.status === "Active" ? "green" : "gray"}>
+                    {test.status}
+                  </Badge>
+                </Td>
+                <Td>
+                  <HStack spacing={2}>
+                    <Button variant="ghost" size="sm" colorScheme="cyan">Edit</Button>
+                    <Button variant="ghost" size="sm" colorScheme="red" onClick={() => handleDelete(test)}>Delete</Button>
+                  </HStack>
+                </Td>
+              </Tr>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+          </Tbody>
+        </Table>
+      </Box>
+
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Confirm Delete</ModalHeader>
+          <ModalBody>
+            <Text>Are you sure you want to delete <b>{selectedTest?.name}</b>?</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" mr={3} onClick={onClose}>Cancel</Button>
+            <Button colorScheme="red" onClick={onClose}>Delete</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Box>
   );
-} 
+}
