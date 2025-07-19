@@ -14,3 +14,8 @@ export const registerFunc = async (data: RegisterDataType) => {
     const response = await api.post('/auth/users/', data)
     return response
 }
+
+export async function refreshToken(refresh: string) {
+  const res = await api.post("/token/refresh/", { refresh });
+  return res.data; // { access: "..." }
+}

@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { checkToken } from "../../../../../lib/checkToken";
-
+import api from "../../../../../utils/request";
 import {
   Box,
   Button,
@@ -19,62 +18,64 @@ import {
   Stack,
   Badge,
   HStack,
+  Select,
 } from "@chakra-ui/react";
-
-const users = [
-  { name: "John Doe", email: "john@example.com", role: "Admin", status: "Active" },
-  { name: "Jane Smith", email: "jane@example.com", role: "User", status: "Inactive" },
-  { name: "Alex Lee", email: "alex@example.com", role: "Editor", status: "Active" },
-  { name: "Emily Brown", email: "emily@example.com", role: "User", status: "Active" },
-];
 
 export default function UsersPage() {
   const router = useRouter();
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [activeIdx, setActiveIdx] = useState<number | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+
   useEffect(() => {
-    checkToken(router);
-  }, [router]);
+    setLoading(true);
+    api.get("/auth/users/")
+      .then(res => {
+        setUsers(Array.isArray(res.data) ? res.data : []);
+        setLoading(false);
+      })
+      .catch(() => {
+        setUsers([]);
+        setLoading(false);
+      });
+  }, []);
+
+  // Statuslar ro‘yxatini userlardan avtomatik olish
+  const statusList = Array.from(new Set(users.map(u => u.status))).filter(Boolean);
+
+  // Filterlangan userlar
+  const filteredUsers = statusFilter === "all"
+    ? users
+    : users.filter(u => u.status === statusFilter);
 
   const bg = useColorModeValue("white", "gray.800");
   const text = useColorModeValue("gray.900", "white");
   const border = useColorModeValue("gray.200", "gray.700");
-  const inputBg = useColorModeValue("white", "gray.700");
-  const inputBorder = useColorModeValue("gray.300", "gray.600");
   const tableHeadBg = useColorModeValue("gray.50", "gray.700");
   const tableRowBg = useColorModeValue("white", "gray.800");
+  const activeBg = useColorModeValue("cyan.50", "cyan.900");
 
   return (
     <Box p={4}>
-      <Stack
-        direction={{ base: "column", sm: "row" }}
-        justify="space-between"
-        align="center"
-        mb={6}
-      >
+      <Stack direction={{ base: "column", sm: "row" }} justify="space-between" align="center" mb={6}>
         <Heading size="lg" color={text}>Users</Heading>
-        <HStack spacing={3}>
-          <Input
-            placeholder="Search users..."
+        <HStack>
+          <Input placeholder="Search users..." size="sm" maxW="250px" />
+          <Select
             size="sm"
-            bg={inputBg}
-            borderColor={inputBorder}
-            _focus={{
-              borderColor: "cyan.500",
-              boxShadow: "0 0 0 1px var(--chakra-colors-cyan-500)",
-            }}
-            maxW="250px"
-          />
-          {/* <Button colorScheme="cyan" size="sm">+ Add User</Button> */}
+            maxW="150px"
+            value={statusFilter}
+            onChange={e => setStatusFilter(e.target.value)}
+          >
+            <option value="all">All Status</option>
+            {statusList.map(status => (
+              <option key={status} value={status}>{status}</option>
+            ))}
+          </Select>
         </HStack>
       </Stack>
-
-      <Box
-        bg={bg}
-        rounded="lg"
-        shadow="md"
-        border="1px solid"
-        borderColor={border}
-        overflowX="auto"
-      >
+      <Box bg={bg} rounded="lg" shadow="md" border="1px solid" borderColor={border} overflowX="auto">
         <Table variant="simple">
           <Thead bg={tableHeadBg}>
             <Tr>
@@ -86,27 +87,33 @@ export default function UsersPage() {
             </Tr>
           </Thead>
           <Tbody>
-            {users.map((user, idx) => (
-              <Tr key={idx} bg={tableRowBg}>
-                <Td fontWeight="medium" color={text}>{user.name}</Td>
+            {loading ? (
+              <Tr><Td colSpan={5}>Loading...</Td></Tr>
+            ) : filteredUsers.length === 0 ? (
+              <Tr><Td colSpan={5}>No users found</Td></Tr>
+            ) : filteredUsers.map((user, idx) => (
+              <Tr
+                key={user.id || idx}
+                bg={activeIdx === idx ? activeBg : tableRowBg}
+                transition="background 0.2s"
+              >
+                <Td fontWeight="medium" color={text}>{user.name || user.username}</Td>
                 <Td color="gray.500">{user.email}</Td>
                 <Td color="gray.500">{user.role}</Td>
                 <Td>
-                  <Badge
-                    colorScheme={user.status === "Active" ? "green" : "gray"}
-                    variant="subtle"
-                    px={2}
-                    py={0.5}
-                    borderRadius="full"
-                  >
+                  <Badge colorScheme={user.status === "Active" ? "green" : "gray"} variant="subtle" px={2} py={0.5} borderRadius="full">
                     {user.status}
                   </Badge>
                 </Td>
                 <Td>
-                  <HStack spacing={2}>
-                    <Button variant="ghost" size="sm" colorScheme="cyan">Edit</Button>
-                    <Button variant="ghost" size="sm" colorScheme="red">Delete</Button>
-                  </HStack>
+                  <Button
+                    colorScheme="cyan"
+                    size="sm"
+                    variant={activeIdx === idx ? "solid" : "outline"}
+                    onClick={() => setActiveIdx(idx)}
+                  >
+                    Show
+                  </Button>
                 </Td>
               </Tr>
             ))}

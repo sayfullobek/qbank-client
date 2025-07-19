@@ -8,6 +8,7 @@ const navItems = [
   { href: "/admin/users", label: "Users", icon: UsersIcon },
   { href: "/admin/tests", label: "Tests", icon: TestsIcon },
   { href: "/admin/billings", label: "Billings", icon: BillingIcon },
+  { href: "/admin/flashcards", label: "Flashcards", icon: FlashcardsIcon },
 ];
 
 export default function AdminSideBar() {
@@ -133,6 +134,16 @@ function BillingIcon() {
   return (
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
       <path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd" />
+    </svg>
+  );
+}
+
+function FlashcardsIcon() {
+  return (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+      <rect x="3" y="5" width="14" height="10" rx="2" />
+      <rect x="7" y="7" width="6" height="2" rx="1" />
+      <rect x="7" y="11" width="4" height="2" rx="1" />
     </svg>
   );
 }

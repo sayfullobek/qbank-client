@@ -42,6 +42,7 @@ export default function AddTestPage() {
     const questionBg = useColorModeValue("gray.100", "gray.700");
 
     const [formData, setFormData] = useState({
+        id: 2147483647,
         test_name: "",
         test_mode: "",
         max_questions_per_block: 0,
@@ -54,6 +55,7 @@ export default function AddTestPage() {
     });
 
     const [newQuestion, setNewQuestion] = useState({
+        id: 2147483647,
         text: "",
         translated_text: "",
         subject: "",
@@ -69,7 +71,9 @@ export default function AddTestPage() {
 
     const handleAddQuestion = async () => {
         try {
-            const res = await api.post("/questions/", newQuestion);
+            // Har safar unikal id bering
+            const questionWithId = { ...newQuestion, id: Date.now() };
+            const res = await api.post("/questions/", questionWithId);
             const createdQuestion = res.data as any as Question;
 
             setQuestionList([...questionList, createdQuestion]);
@@ -79,6 +83,7 @@ export default function AddTestPage() {
             });
 
             setNewQuestion({
+                id: Date.now(), // resetda ham yangi id
                 text: "",
                 translated_text: "",
                 subject: "",
@@ -129,6 +134,7 @@ export default function AddTestPage() {
 
     return (
         <Box p={6} maxW="4xl" mx="auto">
+            <Button mb={4} colorScheme="gray" variant="outline" onClick={() => router.push("/admin/tests")}>Back</Button>
             <Heading size="lg" mb={6} color={text}>Create New Test</Heading>
             <Stack spacing={4} bg={bg} p={6} rounded="lg" shadow="md" border="1px solid" borderColor={border}>
                 <FormControl>
