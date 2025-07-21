@@ -55,55 +55,55 @@ export default function UserProfilePage() {
     router.push('/user/reset-password');
   };
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setAvatar(ev.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = (ev) => {
+  //       setAvatar(ev.target?.result as string);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
-  const startCamera = async () => {
-    try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
-      setStream(mediaStream);
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-      }
-    } catch (err) {
-      alert('Camera access denied!');
-    }
-  };
+  // const startCamera = async () => {
+  //   try {
+  //     const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+  //     setStream(mediaStream);
+  //     if (videoRef.current) {
+  //       videoRef.current.srcObject = mediaStream;
+  //     }
+  //   } catch (err) {
+  //     alert('Camera access denied!');
+  //   }
+  // };
 
-  const stopCamera = () => {
-    stream?.getTracks().forEach(track => track.stop());
-    setStream(null);
-  };
+  // const stopCamera = () => {
+  //   stream?.getTracks().forEach(track => track.stop());
+  //   setStream(null);
+  // };
 
-  const handleOpenCamera = () => {
-    openCamera();
-    setTimeout(startCamera, 200); // wait for modal to open
-  };
+  // const handleOpenCamera = () => {
+  //   openCamera();
+  //   setTimeout(startCamera, 200); // wait for modal to open
+  // };
 
-  const handleCloseCamera = () => {
-    closeCamera();
-    stopCamera();
-  };
+  // const handleCloseCamera = () => {
+  //   closeCamera();
+  //   stopCamera();
+  // };
 
-  const handleCapture = () => {
-    if (videoRef.current && canvasRef.current) {
-      const ctx = canvasRef.current.getContext('2d');
-      if (ctx) {
-        ctx.drawImage(videoRef.current, 0, 0, 200, 200);
-        const dataUrl = canvasRef.current.toDataURL('image/png');
-        setAvatar(dataUrl);
-        handleCloseCamera();
-      }
-    }
-  };
+  // const handleCapture = () => {
+  //   if (videoRef.current && canvasRef.current) {
+  //     const ctx = canvasRef.current.getContext('2d');
+  //     if (ctx) {
+  //       ctx.drawImage(videoRef.current, 0, 0, 200, 200);
+  //       const dataUrl = canvasRef.current.toDataURL('image/png');
+  //       setAvatar(dataUrl);
+  //       handleCloseCamera();
+  //     }
+  //   }
+  // };
 
   return (
     <Box maxW="900px" mx="auto" py={8} px={4}>
@@ -112,7 +112,7 @@ export default function UserProfilePage() {
           <Box position="relative">
             <Avatar size="xl" name={user.name} src={avatar} />
             <Flex position="absolute" bottom={0} right={0} gap={1}>
-              <IconButton
+              {/* <IconButton
                 aria-label="Take photo"
                 icon={<CameraIcon className="w-4 h-4" />}
                 size="sm"
@@ -121,15 +121,15 @@ export default function UserProfilePage() {
                 bg="blue.500"
                 color="white"
                 _hover={{ bg: 'blue.600' }}
-              />
-              <ChakraInput
+              /> */}
+              {/* <ChakraInput
                 ref={cameraInputRef}
                 type="file"
                 accept="image/*"
                 capture="user"
                 onChange={handleAvatarChange}
                 display="none"
-              />
+              /> */}
               <IconButton
                 aria-label="Upload photo"
                 icon={<FiUpload />}
@@ -140,13 +140,13 @@ export default function UserProfilePage() {
                 color="white"
                 _hover={{ bg: 'gray.600' }}
               />
-              <ChakraInput
+              {/* <ChakraInput
                 ref={fileInputRef}
                 type="file"
                 accept="image/*"
                 onChange={handleAvatarChange}
                 display="none"
-              />
+              /> */}
             </Flex>
           </Box>
           <Box>
@@ -219,7 +219,7 @@ export default function UserProfilePage() {
       </Modal>
 
       {/* Camera Modal */}
-      <Modal isOpen={isCameraOpen} onClose={handleCloseCamera} isCentered>
+      {/* <Modal isOpen={isCameraOpen} onClose={handleCloseCamera} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Take a Selfie</ModalHeader>
@@ -233,7 +233,7 @@ export default function UserProfilePage() {
             <Button variant="ghost" onClick={handleCloseCamera}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </Box>
   );
 }

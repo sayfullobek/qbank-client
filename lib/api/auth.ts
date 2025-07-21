@@ -1,7 +1,7 @@
 
 import axios from "axios"
 import api from "../../utils/request"
-import { LoginDataType, RegisterDataType } from "../../types/type"
+import { GetMeDataType, LoginDataType, RegisterDataType } from "../../types/type"
 
 // login qilish uchun axios sorovi
 export const loginFunc = async (data: LoginDataType) => {
@@ -15,7 +15,7 @@ export const registerFunc = async (data: RegisterDataType) => {
     return response
 }
 
-export async function refreshToken(refresh: string) {
-  const res = await api.post("/token/refresh/", { refresh });
-  return res.data; // { access: "..." }
+export const meFunc = async (data: GetMeDataType) => {
+    const response = await api.post('/auth/users/me', data)
+    return response
 }
