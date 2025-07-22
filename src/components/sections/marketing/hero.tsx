@@ -4,8 +4,10 @@ import doctorHero from '../../../../public/images/imgs/doc-hero.webp'
 import Image from 'next/image'
 import Link from 'next/link'
 function HeroSection() {
+  // const bg = useColorModeValue('#fafcff','black')
+
   return (
-    <section data-aos='fade-up' className='!border-b-2 !border-[#edf2f9]'>
+    <section data-aos='fade-up' className={`!border-b-2 !border-gray-`}>
       <Box
         className='customContainer'
         display={'grid'}
