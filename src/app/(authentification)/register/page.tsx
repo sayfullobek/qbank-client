@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect } from 'react'
-import RegisterForm from '../../../components/custom/Forms/registerForm'
 import { useRouter } from 'next/navigation';
 import { checkToken } from '../../../../lib/checkToken';
+import { ColorModeSwitcher } from '../../../components/ui/color-mode';
+import MultiStepRegisterForm from '../../../components/custom/Forms/registerForm';
 
 function RegisterPage() {
   const router = useRouter();
@@ -10,9 +11,10 @@ function RegisterPage() {
     checkToken(router);
   }, [router]);
   return (
-    
+
     <>
-      <RegisterForm/>
+      <ColorModeSwitcher   />
+      <MultiStepRegisterForm />
     </>
   )
 }

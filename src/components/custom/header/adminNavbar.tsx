@@ -1,231 +1,154 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
 import {
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  BellIcon,
-  Squares2X2Icon,
-  ShoppingCartIcon,
-  EllipsisHorizontalIcon,
-} from '@heroicons/react/24/outline';
-import {
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Icon,
-  useColorModeValue,
+  Box,
+  Flex,
+  Avatar,
+  HStack,
+  IconButton,
+  Button,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  Avatar,
-  Box,
-  Text,
-  Flex,
+  useDisclosure,
   VStack,
-  HStack,
+  Text,
   Drawer,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
   DrawerHeader,
   DrawerBody,
-  useDisclosure,
-  Divider,
-  IconButton,
-} from "@chakra-ui/react";
-import { ColorModeSwitcher } from "../../ui/color-mode";
-import { useRouter } from "next/navigation";
-import { clearAll } from "../../../../utils/auth";
-import { useState } from "react";
+  Input,
+  Spacer,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { BellIcon} from '@heroicons/react/24/outline';
+import { useRef } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ColorModeSwitcher } from '../../ui/color-mode';
 
-export default function AdminNavbar({ onMenuClick }: { onMenuClick?: () => void }) {
-  const bgColor = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-  const textColor = useColorModeValue("gray.600", "gray.300");
-  const hoverBgColor = useColorModeValue("gray.100", "gray.700");
-  const inputBg = useColorModeValue("white", "gray.700");
-  const menuBg = useColorModeValue("white", "gray.800");
-  const router = useRouter();
-  const [notifications, setNotifications] = useState(["New test submitted", "New user registered"]);
+export default function AdminNavbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef(null);
 
-  const handleSignOut = () => {
-    clearAll();
-    router.push("/login");
-  };
-
-  const handleAppAction = () => {
-    alert("Launching app panel...");
-  };
+  const bgColor = useColorModeValue('gray.100', 'gray.700');
+  const hoverBgColor = useColorModeValue('gray.200', 'gray.600');
 
   return (
-    <Box
-      position="fixed"
-      top="0"
-      left="0"
-      w="100%"
-      h="16"
-      zIndex="50"
-      bg={bgColor}
-      px={{ base: 4, lg: 6 }}
-      boxShadow="sm"
-    >
-      <Flex justify="space-between" align="center" h="full">
-        {/* Left: Menu (always visible) */}
-        <HStack spacing={4} minW={0} flex={{ base: "0 0 auto", lg: "none" }}>
-          <Icon
-            as={Bars3Icon}
-            boxSize={7}
-            display={{ base: "block", lg: "none" }}
-            cursor="pointer"
-            onClick={onMenuClick}
-            color={textColor}
-          />
-        </HStack>
-        {/* Center: Logo (always centered on mobile) */}
-        <Box flex={{ base: "1 1 0%", lg: "none" }} display="flex" justifyContent="center" alignItems="center">
-          <Link href="/" className="flex items-center gap-2">
-            <Image src="/images/logo.svg" alt="Logo" width={28} height={28} />
-            <Text fontWeight="bold" fontSize="xl" color={textColor} display={{ base: "block", lg: "block" }}>
-              Windster Pro
-            </Text>
-          </Link>
-        </Box>
-        {/* Center: Search (only on desktop) */}
-        <Box flex="1" maxW="500px" display={{ base: "none", lg: "block" }}>
-          <InputGroup>
-            <InputLeftElement pointerEvents="none">
-              <Icon as={MagnifyingGlassIcon} w={5} h={5} color="gray.400" />
-            </InputLeftElement>
-            <Input
-              type="text"
-              placeholder="Search"
-              bg={inputBg}
-              borderColor={borderColor}
-              _placeholder={{ color: "gray.400" }}
-              _focus={{ borderColor: "cyan.500", boxShadow: "0 0 0 1.5px #06b6d4" }}
-              size="md"
-              pl="2.5rem"
-              pr="1rem"
-              py="1.5"
-              rounded="lg"
-              fontSize="sm"
-              shadow="sm"
-            />
-          </InputGroup>
-        </Box>
-        {/* Right: Desktop icons */}
-        <HStack spacing={3} display={{ base: "none", lg: "flex" }}>
-          <ColorModeSwitcher />
-          {/* Notification */}
-          <Menu>
-            <MenuButton
-              p={2}
-              rounded="full"
-              _hover={{ bg: hoverBgColor }}
-              bg={bgColor}
-            >
-              <BellIcon className="w-6 h-6" />
-            </MenuButton>
-            <MenuList bg={menuBg}>
-              {notifications.length === 0 ? (
-                <MenuItem disabled>No new notifications</MenuItem>
-              ) : (
-                notifications.map((note, idx) => <MenuItem key={idx}>{note}</MenuItem>)
-              )}
-            </MenuList>
-          </Menu>
-          {/* App panel */}
-          <Menu>
-            <MenuButton
-              p={2}
-              rounded="full"
-              _hover={{ bg: hoverBgColor }}
-              bg={bgColor}
-            >
-              <Squares2X2Icon className="w-6 h-6" />
-            </MenuButton>
-            <MenuList bg={menuBg}>
-              <MenuItem onClick={handleAppAction}>Open App Panel</MenuItem>
-              <MenuItem onClick={() => alert("Docs coming soon")}>Documentation</MenuItem>
-            </MenuList>
-          </Menu>
-          {/* Avatar */}
-          <Menu>
-            <MenuButton as={Box} cursor="pointer">
-              <Avatar size="sm" name="Admin" src="https://randomuser.me/api/portraits/men/32.jpg" />
-            </MenuButton>
-            <MenuList bg={menuBg}>
-              <MenuItem onClick={() => router.push("/admin/profile")}>Account settings</MenuItem>
-              <MenuItem onClick={() => router.push("/admin/profile")}>Admin profile</MenuItem>
-              <MenuItem onClick={handleSignOut} color="red.500">Sign out</MenuItem>
-            </MenuList>
-          </Menu>
-        </HStack>
-        {/* Right: Mobile ellipsis */}
-        <Box display={{ base: "block", lg: "none" }}>
+    <>
+      {/* Navbar */}
+      <Flex
+        as="nav"
+        bg={useColorModeValue('white', 'gray.800')}
+        px={4}
+        py={3}
+        shadow="md"
+        align="center"
+        justify="space-between"
+        position="sticky"
+        top="0"
+        zIndex="999"
+      >
+        {/* Logo */}
+        <HStack spacing={3}>
           <IconButton
-            icon={<EllipsisHorizontalIcon style={{ width: 28, height: 28 }} />}
-            aria-label="Open menu"
-            variant="ghost"
-            size="lg"
-            isRound
+            ref={btnRef}
+            icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            }
+            display={{ base: 'inline-flex', md: 'none' }}
             onClick={onOpen}
-            bg={isOpen ? "gray.200" : "white"}
-            _hover={{ bg: "gray.100", boxShadow: "md" }}
-            _active={{ bg: "gray.200" }}
-            boxShadow="sm"
+            aria-label="Open Menu"
+            variant="ghost"
           />
-          <Drawer isOpen={isOpen} placement="bottom" onClose={onClose} size="xs">
-            <DrawerOverlay />
-            <DrawerContent
-              borderTopRadius="2xl"
-              maxW="sm"
-              mx="auto"
-              pb={6}
-            >
-              <Box w="40px" h="5px" bg="gray.300" borderRadius="full" mx="auto" my={2} />
-              <DrawerCloseButton />
-              <DrawerHeader>Menu</DrawerHeader>
-              <DrawerBody>
-                <VStack align="stretch" spacing={4}>
-                  {/* 1. Rang switcher */}
-                  <Box>
-                    <ColorModeSwitcher />
-                  </Box>
-                  <Divider />
-                  {/* 2. Bildirishnoma */}
-                  <Box>
-                    <Text fontWeight="bold" mb={1}>Notifications</Text>
-                    {notifications.length === 0 ? (
-                      <Text color="gray.500">No new notifications</Text>
-                    ) : (
-                      notifications.map((note, idx) => <Text key={idx}>{note}</Text>)
-                    )}
-                  </Box>
-                  <Divider />
-                  {/* 3. App Panel */}
-                  <Box>
-                    <Text fontWeight="bold" mb={1}>App Panel</Text>
-                    <Text as="button" color="cyan.600" onClick={handleAppAction}>Open App Panel</Text>
-                  </Box>
-                  <Divider />
-                  {/* 4. Profil */}
-                  <Box>
-                    <Text fontWeight="bold" mb={1}>Profile</Text>
-                    <Text as="button" color="cyan.600" display="block" onClick={() => router.push("/admin/profile")}>Account settings</Text>
-                    <Text as="button" color="cyan.600" display="block" onClick={() => router.push("/admin/profile")}>Admin profile</Text>
-                    <Text as="button" color="red.500" display="block" onClick={handleSignOut}>Sign out</Text>
-                  </Box>
-                </VStack>
-              </DrawerBody>
-            </DrawerContent>
-          </Drawer>
+          <Link href="/">
+            <HStack>
+              <Image src="/images/logo.svg" alt="Medical Admin" width={28} height={28} />
+              <Text fontWeight="bold" fontSize="lg" display={{ base: 'none', md: 'block' }}>
+                MedAdmin
+              </Text>
+            </HStack>
+          </Link>
+        </HStack>
+
+        {/* Search input (hidden on small) */}
+        <Box w="40%" display={{ base: 'none', md: 'block' }}>
+          <Input placeholder="Search..." />
         </Box>
+
+        {/* Right side */}
+        <HStack spacing={3}>
+          <ColorModeSwitcher />
+
+          {/* Notifications */}
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              icon={<BellIcon className="w-5 h-5" />}
+              variant="ghost"
+              aria-label="Notifications"
+            />
+            <MenuList>
+              <MenuItem>New patient registered</MenuItem>
+              <MenuItem>Lab result available</MenuItem>
+              <MenuItem>Staff meeting 3PM</MenuItem>
+            </MenuList>
+          </Menu>
+
+          {/* User profile */}
+          <Menu>
+            <MenuButton>
+              <Avatar size="sm" name="John Doe" src="/images/avatar.jpg" />
+            </MenuButton>
+            <MenuList>
+              <VStack align="start" px={4} py={2}>
+                <Text fontWeight="bold">John Doe</Text>
+                <Text fontSize="sm" color="gray.500">Admin</Text>
+              </VStack>
+              <MenuItem as={Link} href="/admin/profile">Profile</MenuItem>
+              <MenuItem>Settings</MenuItem>
+              <MenuItem color="red.500">Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        </HStack>
       </Flex>
-    </Box>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Menu</DrawerHeader>
+          <DrawerBody>
+            <VStack spacing={4} align="start">
+              <Button as={Link} href="/" w="full" variant="ghost">
+                Dashboard
+              </Button>
+              <Button as={Link} href="/patients" w="full" variant="ghost">
+                Patients
+              </Button>
+              <Button as={Link} href="/appointments" w="full" variant="ghost">
+                Appointments
+              </Button>
+              <Button as={Link} href="/staff" w="full" variant="ghost">
+                Staff
+              </Button>
+              <Button as={Link} href="/settings" w="full" variant="ghost">
+                Settings
+              </Button>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </>
   );
 }

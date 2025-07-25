@@ -13,7 +13,7 @@ export default function AdminFooter() {
       <Box
         bg={bg}
         mt={10}
-        ml={'256px'}
+        ml={{base: '0', lg: '256px'}}
         px={{ base: 4, md: 8 }}
         py={{ base: 6, md: 8 }}
         borderTopWidth={1}

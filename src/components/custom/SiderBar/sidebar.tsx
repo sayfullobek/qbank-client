@@ -8,7 +8,7 @@ const navItems = [
   { href: "/admin/users", label: "Users", icon: UsersIcon },
   { href: "/admin/tests", label: "Tests", icon: TestsIcon },
   { href: "/admin/billings", label: "Billings", icon: BillingIcon },
-  { href: "/admin/flashcards", label: "Flashcards", icon: FlashcardsIcon },
+  // { href: "/admin/flashcards", label: "Flashcards", icon: FlashcardsIcon },
 ];
 
 export default function AdminSideBar() {

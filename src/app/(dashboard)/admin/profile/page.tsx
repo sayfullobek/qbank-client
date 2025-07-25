@@ -15,11 +15,22 @@ import {
   Divider,
   InputGroup,
   InputRightElement,
-  useToast
+  IconButton,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useToast,
+  HStack,
 } from "@chakra-ui/react";
+import { EditIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/navigation";
 import { clearAll } from "../../../../../utils/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AdminProfilePage() {
   const cardBg = useColorModeValue("white", "gray.800");
@@ -28,86 +39,109 @@ export default function AdminProfilePage() {
   const toast = useToast();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [timer, setTimer] = useState(30);
+  const [step, setStep] = useState(0);
+  const [code, setCode] = useState("");
+
+  const {
+    isOpen: isPassModalOpen,
+    onOpen: onPassModalOpen,
+    onClose: onPassModalClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isConfirmModalOpen,
+    onOpen: onConfirmModalOpen,
+    onClose: onConfirmModalClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isNameModalOpen,
+    onOpen: onNameModalOpen,
+    onClose: onNameModalClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isEmailModalOpen,
+    onOpen: onEmailModalOpen,
+    onClose: onEmailModalClose,
+  } = useDisclosure();
+
+  const [name, setName] = useState("Admin Name");
+  const [email, setEmail] = useState("superadmin@example.com");
 
   const handleSignOut = () => {
     clearAll();
     router.push("/login");
   };
 
-  const handleUpdateProfile = () => {
-    toast({
-      title: "Profile updated.",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
+  const handleSaveName = () => {
+    toast({ title: "Ism yangilandi", status: "success", duration: 2000, isClosable: true });
+    onNameModalClose();
   };
 
-  const handleChangePassword = () => {
-    toast({
-      title: "Password changed successfully.",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
+  const handleSaveEmail = () => {
+    toast({ title: "Email yangilandi", status: "success", duration: 2000, isClosable: true });
+    onEmailModalClose();
   };
+
+  const handleStartPasswordChange = () => {
+    setStep(0);
+    onConfirmModalOpen();
+  };
+
+  const handleSendCode = () => {
+    setStep(1);
+    onConfirmModalClose();
+    onPassModalOpen();
+    setTimer(30);
+  };
+
+  const handleSavePassword = () => {
+    toast({ title: "Parol muvaffaqiyatli o'zgartirildi", status: "success", duration: 2000, isClosable: true });
+    onPassModalClose();
+  };
+
+  useEffect(() => {
+    if (step === 1 && timer > 0) {
+      const countdown = setInterval(() => setTimer(t => t - 1), 1000);
+      return () => clearInterval(countdown);
+    }
+  }, [step, timer]);
 
   return (
     <Box maxW="700px" mx="auto" py={10} px={4}>
       <Box bg={cardBg} borderRadius="lg" boxShadow="md" p={8}>
         <Stack align="center" mb={6}>
-          <Avatar size="2xl" name="Admin" src="https://randomuser.me/api/portraits/men/32.jpg" />
-          <Heading size="lg" color={textColor}>Admin Name</Heading>
-          <Text color="gray.500">superadmin@example.com</Text>
+          <Avatar size="2xl" name={name} src="https://randomuser.me/api/portraits/men/32.jpg" />
+          <Heading size="lg" color={textColor}>{name}</Heading>
+          <Text color="gray.500">{email}</Text>
         </Stack>
 
         <Stack spacing={6}>
-          <FormControl>
+          <FormControl isReadOnly>
             <FormLabel>Full Name</FormLabel>
-            <Input placeholder="Admin Name" />
+            <HStack>
+              <Input value={name} isDisabled />
+              <IconButton icon={<EditIcon />} onClick={onNameModalOpen} aria-label="Edit name" />
+            </HStack>
           </FormControl>
 
-          <FormControl>
+          <FormControl isReadOnly>
             <FormLabel>Email address</FormLabel>
-            <Input type="email" placeholder="superadmin@example.com" />
-            <FormHelperText>We&#39;ll never share your email.</FormHelperText>
+            <HStack>
+              <Input value={email} isDisabled />
+              <IconButton icon={<EditIcon />} onClick={onEmailModalOpen} aria-label="Edit email" />
+            </HStack>
           </FormControl>
 
           <FormControl>
-            <FormLabel>Phone Number</FormLabel>
-            <Input placeholder="+998 90 123 45 67" />
+            <FormLabel>Change Password</FormLabel>
+            <HStack>
+              <Input value="********" isDisabled type="password" />
+              <IconButton icon={<EditIcon />} onClick={handleStartPasswordChange} aria-label="Change password" />
+            </HStack>
           </FormControl>
-
-          <FormControl>
-            <FormLabel>Upload Profile Image</FormLabel>
-            <Input type="file" accept="image/*" />
-          </FormControl>
-
-          <Button colorScheme="blue" onClick={handleUpdateProfile}>Update Profile</Button>
-        </Stack>
-
-        <Divider my={10} />
-
-        <Heading size="md" mb={4} color={textColor}>Change Password</Heading>
-        <Stack spacing={5}>
-          <FormControl>
-            <FormLabel>Current Password</FormLabel>
-            <Input type="password" placeholder="Enter current password" />
-          </FormControl>
-
-          <FormControl>
-            <FormLabel>New Password</FormLabel>
-            <InputGroup>
-              <Input type={showPassword ? "text" : "password"} placeholder="Enter new password" />
-              <InputRightElement width="4.5rem">
-                <Button h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? "Hide" : "Show"}
-                </Button>
-              </InputRightElement>
-            </InputGroup>
-          </FormControl>
-
-          <Button colorScheme="teal" onClick={handleChangePassword}>Update Password</Button>
         </Stack>
 
         <Divider my={10} />
@@ -116,6 +150,73 @@ export default function AdminProfilePage() {
           <Button colorScheme="red" variant="outline" onClick={handleSignOut}>Sign Out</Button>
         </Stack>
       </Box>
+
+      {/* Name Modal */}
+      <Modal isOpen={isNameModalOpen} onClose={onNameModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Ismni o&apos;zgartirish</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input value={name} onChange={(e) => setName(e.target.value)} />
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handleSaveName} colorScheme="blue">Saqlash</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Email Modal */}
+      <Modal isOpen={isEmailModalOpen} onClose={onEmailModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Emailni o&apos;zgartirish</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handleSaveEmail} colorScheme="blue">Saqlash</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Password Change Confirm Modal */}
+      <Modal isOpen={isConfirmModalOpen} onClose={onConfirmModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Parolni o&apos;zgartirmoqchimisiz?</ModalHeader>
+          <ModalCloseButton />
+          <ModalFooter>
+            <Button onClick={onConfirmModalClose} mr={3}>Yo‘q</Button>
+            <Button colorScheme="blue" onClick={handleSendCode}>Ha</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Password Change Modal with Verification Code */}
+      <Modal isOpen={isPassModalOpen} onClose={onPassModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Emailga yuborilgan kodni kiriting</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text mb={2}>Yuborilgan kodni kiriting. {timer}s qoldi</Text>
+            <Input value={code} onChange={(e) => setCode(e.target.value)} placeholder="123456" mb={4} />
+            <FormControl>
+              <FormLabel>Yangi parol</FormLabel>
+              <Input type="password" placeholder="New password" />
+            </FormControl>
+            <FormControl mt={3}>
+              <FormLabel>Parolni takrorlang</FormLabel>
+              <Input type="password" placeholder="Repeat password" />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="teal" onClick={handleSavePassword}>Saqlash</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }

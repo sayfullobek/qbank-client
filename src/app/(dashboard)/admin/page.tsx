@@ -41,9 +41,9 @@ export default function AdminDashboardPage() {
   const tableHeaderBg = useColorModeValue("gray.50", "gray.700");
 
   const router = useRouter();
-  useEffect(() => {
-    checkToken(router);
-  }, [router]);
+  // useEffect(() => {
+  //   checkToken(router);
+  // }, [router]);
 
   const pieData = [
     { name: "Passed", value: 72 },
